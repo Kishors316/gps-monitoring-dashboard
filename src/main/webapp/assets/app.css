@@ -1,0 +1,119 @@
+:root{
+  --bg:#0c1118; --panel:#121a24; --panel-2:#0f161f; --line:#1f2c3a;
+  --ink:#e7eef6; --muted:#7e93a8; --accent:#ffb020; --accent-dim:#3a2f12;
+  --good:#36d399;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; --display:'Sora',sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--sans);
+  font-size:14px; -webkit-font-smoothing:antialiased; position:relative; overflow-x:hidden;
+}
+.bg-grid{
+  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:linear-gradient(#101a26 1px,transparent 1px),
+                   linear-gradient(90deg,#101a26 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);
+}
+
+/* top bar */
+.topbar{
+  position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between;
+  padding:18px 28px; border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(18,26,36,.9),rgba(12,17,24,.6));
+}
+.brand{display:flex; align-items:center; gap:14px}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-dim),0 0 14px var(--accent); animation:pulse 2.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px transparent,0 0 18px var(--accent)}}
+.brand h1{font-family:var(--display); font-size:18px; letter-spacing:.18em; margin:0; font-weight:700}
+.brand p{margin:2px 0 0; color:var(--muted); font-size:12px; letter-spacing:.04em}
+.clock{font-family:var(--mono); color:var(--muted); font-size:13px; letter-spacing:.05em}
+
+/* layout */
+.wrap{position:relative; z-index:1; max-width:1680px; margin:0 auto; padding:24px 20px 60px}
+.panel{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line); border-radius:14px;
+}
+
+/* filters */
+.filters{display:flex; gap:16px; align-items:flex-end; padding:18px; flex-wrap:wrap}
+.field{display:flex; flex-direction:column; gap:6px; flex:1 1 180px; min-width:160px}
+.field label{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--muted)}
+.field select,.field input{
+  background:#0a0f16; border:1px solid var(--line); color:var(--ink);
+  border-radius:9px; padding:11px 12px; font-family:var(--sans); font-size:14px; outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.field select:focus,.field input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim)}
+.run{
+  flex:0 0 auto; background:var(--accent); color:#1a1303; border:none; cursor:pointer;
+  font-family:var(--display); font-weight:700; letter-spacing:.06em; font-size:14px;
+  padding:12px 26px; border-radius:9px; height:44px; transition:transform .08s, filter .15s;
+}
+.run:hover{filter:brightness(1.08)} .run:active{transform:translateY(1px)}
+.run:disabled{opacity:.5; cursor:wait}
+
+/* tabs */
+.tabs{display:flex; align-items:center; gap:8px; margin:22px 2px 14px}
+.tab{
+  background:transparent; border:1px solid var(--line); color:var(--muted);
+  padding:9px 18px; border-radius:9px; cursor:pointer; font-family:var(--display);
+  font-weight:600; letter-spacing:.04em; font-size:13px; transition:.15s;
+}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--accent); border-color:var(--accent); background:var(--accent-dim)}
+.tab-status{margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--muted)}
+.tab-status.err{color:#ff6b6b}
+
+/* stats */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px}
+.stat{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
+  display:flex; flex-direction:column; gap:6px}
+.stat .k{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted)}
+.stat .v{font-family:var(--display); font-size:22px; font-weight:700}
+.stat .v small{font-size:13px; color:var(--muted); font-weight:500}
+
+/* table */
+.view{overflow:hidden}
+.table-scroll{max-height:100vh; overflow:auto}
+table{width:100%; border-collapse:collapse; font-size:13.5px}
+thead th{
+  position:sticky; top:0; background:#0e1620; text-align:center; color:var(--muted);
+  font-family:var(--mono); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:.1em;
+  padding:6px 12px; border-bottom:1px solid var(--line); white-space:nowrap;
+}
+tbody td{padding:4px 12px; text-align:center; border-bottom:1px solid #16212e; font-variant-numeric:tabular-nums}
+tbody tr:hover{background:#0f1925}
+tbody td.empty{text-align:center; color:var(--muted); padding:34px}
+.net{font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:20px; border:1px solid var(--line)}
+.net.WIFI{color:#5ad1ff;border-color:#1e3a48} .net.CELLULAR{color:#ffb020;border-color:#3a2f12}
+.batt{font-variant-numeric:tabular-nums}
+.yes{color:var(--good); font-weight:600} .no{color:#ff8a8a}
+/* gap highlighting: the row above a missing-data interval */
+tbody tr.gap-after td{box-shadow:inset 0 -2px 0 0 rgba(255,107,107,.55); background:rgba(255,107,107,.05)}
+.gap-badge{display:inline-block; margin-left:8px; font-family:var(--mono); font-size:10px;
+  padding:1px 8px; border-radius:20px; color:#ff8a8a; border:1px solid #4a2330;
+  background:#2a1820; white-space:nowrap; vertical-align:middle}
+
+/* map */
+#map{height:62vh; min-height:420px; width:100%; border-radius:13px}
+.leaflet-popup-content{font-family:var(--sans); font-size:13px; line-height:1.5}
+.leaflet-popup-content b{font-family:var(--mono)}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .filters{flex-direction:column; align-items:stretch; gap:12px}
+  /* in a column the row-basis (180px) becomes a tall per-field height and
+     flex-grow stretches it further; reset so each field hugs its content */
+  .field{flex:0 0 auto; min-width:0}
+  .run{width:100%}
+  .topbar{padding:14px 16px}
+}
+
+/* map start/end pin markers */
+.pin{background:transparent;border:none}
+.pin svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
